@@ -123,12 +123,35 @@ button {
   text-align: center;
 }
 
+.cart a {
+  position: relative;
+  display: inline-block;
+}
+
 .cart svg {
   width: 25px;
 }
 
 .cart:hover svg {
   fill: gray;
+}
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: var(--primary-color);
+  color: #3c096c; /* Premium deep purple color */
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* End cart icon styles */
@@ -170,6 +193,7 @@ button {
 
 /* Styles for product lists */
 .product-card {
+  position: relative;
   flex: 1 1 45%;
   margin: 0.25em;
   padding: 0.5em;
@@ -241,6 +265,15 @@ button {
   grid-column: 3;
 }
 
+.cart-card__remove {
+  grid-row: 3;
+  grid-column: 3;
+  padding: 10px;
+  display: flex;
+  border-radius: 30px;
+  margin-bottom: 10px;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
@@ -257,7 +290,115 @@ button {
   }
 }
 
+.hide {
+  display: none;
+}
+
+.cart-footer {
+  padding: 1.5em;
+  border-top: 1px solid var(--light-grey);
+  text-align: right;
+}
+
+.cart-total {
+  font-size: var(--large-font);
+  font-weight: bold;
+}
+
 footer {
   font-size: var(--small-font);
   padding: 1em;
+}
+
+/* Dynamic Pricing & Savings Badge Styles */
+.product-detail__price-container {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  gap: 12px;
+  margin: 1.5em 0;
+}
+
+.product-detail__price-container .product-card__retail-price {
+  color: #888888;
+  text-decoration: line-through;
+  font-size: 1.1em;
+}
+
+.product-detail__price-container .product-card__price {
+  font-size: 1.6em;
+  font-weight: bold;
+  color: #b33900; /* Outstanding rust orange/red outdoor accent color */
+}
+
+.product-detail__price-container .product-card__discount {
+  background: linear-gradient(135deg, #e63946, #c1121f);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 30px;
+  font-size: 0.8em;
+  font-weight: bold;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Product Card Discount & Strikethrough Styles on Listing Page */
+.product-card__discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: linear-gradient(135deg, #e63946, #c1121f);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75em;
+  font-weight: bold;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+  z-index: 5;
+}
+
+.product-card__retail-price-list {
+  color: #888888;
+  text-decoration: line-through;
+  font-size: 0.85em;
+  margin-right: 6px;
+}
+
+.product-card__final-price-list {
+  font-weight: bold;
+  color: #b33900; /* Matching our rust orange price color */
+}
+
+/* Dynamic Alert Styles */
+.alert {
+  padding: 12px 20px;
+  background-color: var(--primary-color);
+  color: #3c096c; /* Deep purple contrast */
+  font-weight: bold;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px auto;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.3s ease-out;
+}
+
+.alert p {
+  margin: 0;
+}
+
+.alert span {
+  cursor: pointer;
+  padding: 5px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

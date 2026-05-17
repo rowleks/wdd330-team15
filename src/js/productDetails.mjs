@@ -1,4 +1,4 @@
-import { getLocalStorage, qs, setLocalStorage } from './utils.mjs'
+import { getLocalStorage, qs, setLocalStorage, updateCartCount, alertMessage } from './utils.mjs'
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -30,7 +30,26 @@ export default class ProductDetails {
     qs('#productName', clone).textContent = this.product.NameWithoutBrand
     qs('#productImage', clone).src = this.product.Image
     qs('#productImage', clone).alt = this.product.Name
-    qs('#productPrice', clone).textContent = `$${this.product.FinalPrice}`
+    
+    // Format prices defensively
+    const retail = Number(this.product.SuggestedRetailPrice)
+    const final = Number(this.product.FinalPrice)
+    
+    qs('#productPrice', clone).textContent = `$${final.toFixed(2)}`
+    
+    if (retail && retail > final) {
+      const discount = retail - final
+      const discountPercent = Math.round((discount / retail) * 100)
+      
+      const retailPriceEl = qs('#productRetailPrice', clone)
+      retailPriceEl.textContent = `$${retail.toFixed(2)}`
+      retailPriceEl.classList.remove('hide')
+      
+      const discountEl = qs('#productDiscount', clone)
+      discountEl.textContent = `${discountPercent}% OFF (Save $${discount.toFixed(2)})`
+      discountEl.classList.remove('hide')
+    }
+
     qs('#productColor', clone).textContent = this.product.Colors[0].ColorName
     qs('#productDescription', clone).innerHTML =
       this.product.DescriptionHtmlSimple
@@ -42,7 +61,18 @@ export default class ProductDetails {
   addProductToCart(e) {
     e.preventDefault()
     const cart = getLocalStorage('so-cart') || []
-    cart.push(this.product)
+    
+    const existingItem = cart.find(item => item.Id === this.product.Id)
+    if (existingItem) {
+      existingItem.quantity = (existingItem.quantity || 1) + 1
+      alertMessage(`${this.product.NameWithoutBrand} quantity increased to ${existingItem.quantity}!`)
+    } else {
+      const productWithQty = { ...this.product, quantity: 1 }
+      cart.push(productWithQty)
+      alertMessage(`${this.product.NameWithoutBrand} added to cart!`)
+    }
+
     setLocalStorage('so-cart', cart)
+    updateCartCount()
   }
 }
