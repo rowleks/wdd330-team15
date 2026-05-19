@@ -10,6 +10,11 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "settings": {
+    "import/resolver": {
+      "node": true
+    }
+  },
   "rules": {
     "no-unused-vars": [
       1,
