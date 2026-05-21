@@ -50,6 +50,13 @@ export function renderListWithTemplate(
   parentElement.insertAdjacentHTML(position, htmlStrings.join(''))
 }
 
+export function renderWithTemplate(template, parentElement, data, callback) {
+  parentElement.innerHTML = template;
+  if (callback) {
+    callback(data);
+  }
+}
+
 // dynamically updates the backpack cart count superscript badge
 export function updateCartCount() {
   const cartItems = getLocalStorage('so-cart') || []
