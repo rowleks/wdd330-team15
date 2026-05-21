@@ -20,4 +20,18 @@ export default class ProductData {
     const products = await this.getData()
     return products.find(item => item.Id === id)
   }
+
+  async searchProducts(keyword) {
+    // Get all three categories of products
+    const categories = ['tents', 'backpacks', 'sleeping-bags']
+    const allProducts = []
+
+    for (const category of categories) {
+      const response = await fetch(`../json/${category}.json`)
+      const products = await response.json()
+      allProducts.push(...products)
+    }
+  }
 }
+
+

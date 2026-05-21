@@ -90,7 +90,7 @@ p {
   margin-top: -1.3em;
 }
 
-.logo--square > div {
+.logo--square>div {
   margin-top: -1.7em;
 }
 
@@ -141,7 +141,8 @@ button {
   top: -6px;
   right: -8px;
   background-color: var(--primary-color);
-  color: #3c096c; /* Premium deep purple color */
+  color: #3c096c;
+  /* Premium deep purple color */
   border-radius: 50%;
   font-size: 0.75rem;
   font-weight: bold;
@@ -328,7 +329,8 @@ footer {
 .product-detail__price-container .product-card__price {
   font-size: 1.6em;
   font-weight: bold;
-  color: #b33900; /* Outstanding rust orange/red outdoor accent color */
+  color: #b33900;
+  /* Outstanding rust orange/red outdoor accent color */
 }
 
 .product-detail__price-container .product-card__discount {
@@ -367,14 +369,16 @@ footer {
 
 .product-card__final-price-list {
   font-weight: bold;
-  color: #b33900; /* Matching our rust orange price color */
+  color: #b33900;
+  /* Matching our rust orange price color */
 }
 
 /* Dynamic Alert Styles */
 .alert {
   padding: 12px 20px;
   background-color: var(--primary-color);
-  color: #3c096c; /* Deep purple contrast */
+  color: #3c096c;
+  /* Deep purple contrast */
   font-weight: bold;
   border-radius: 8px;
   display: flex;
@@ -399,6 +403,13 @@ footer {
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

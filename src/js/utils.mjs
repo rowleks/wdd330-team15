@@ -1,3 +1,9 @@
+const headerTemplate = await loadTemplate("../partials/header.html");
+
+const headerElement = document.querySelector("#main-header");
+
+renderWithTemplate(headerTemplate, headerElement);
+
 // wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector)
@@ -76,6 +82,12 @@ export function updateCartCount() {
       cartCountElement.classList.add('hide')
     }
   }
+}
+
+export async function loadTemplate(path) {
+  const res = await fetch(path);
+  const template = await res.text();
+  return template;
 }
 
 // dynamically creates a styled alert message
