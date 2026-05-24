@@ -285,7 +285,7 @@ button {
 }
 
 .product-comments h3 {
-  font-family: var(--font-headline);
+  font-family: var(--font-body);
   font-size: 1.6em;
   color: var(--tertiary-color);
   margin-bottom: 0.75em;
@@ -333,6 +333,7 @@ button {
   font-size: var(--small-font);
   color: #666;
 }
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
