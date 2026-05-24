@@ -413,20 +413,3 @@ footer {
     transform: translateY(0);
   }
 }
-.cart-footer {
-  padding: 1rem;
-  margin-top: 1rem;
-  border-top: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.cart-total {
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
-.hide {
-  display: none;
-}

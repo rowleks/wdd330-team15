@@ -31,9 +31,6 @@ function renderCartContents() {
   updateCartCount()
 }
 
-document.querySelector(".cart-footer").classList.remove("hide");
-
-
 function cartItemTemplate(item) {
   const qty = item.quantity || 1
   const lineTotal = item.FinalPrice * qty
