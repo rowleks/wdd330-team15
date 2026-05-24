@@ -18,7 +18,7 @@ const initProductDetail = async () => {
   try {
     await productDetails.init()
   } catch (error) {
-    console.log(error) 
+    console.log(error)
   }
 }
 
