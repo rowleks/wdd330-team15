@@ -1,9 +1,3 @@
-const headerTemplate = await loadTemplate("../partials/header.html");
-
-const headerElement = document.querySelector("#main-header");
-
-renderWithTemplate(headerTemplate, headerElement);
-
 // wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector)
@@ -57,9 +51,9 @@ export function renderListWithTemplate(
 }
 
 export function renderWithTemplate(template, parentElement, data, callback) {
-  parentElement.innerHTML = template;
+  parentElement.innerHTML = template
   if (callback) {
-    callback(data);
+    callback(data)
   }
 }
 
@@ -74,7 +68,10 @@ export function updateCartCount() {
       cartCountElement.className = 'cart-count'
       cartContainer.appendChild(cartCountElement)
     }
-    const count = cartItems.reduce((total, item) => total + (item.quantity || 1), 0)
+    const count = cartItems.reduce(
+      (total, item) => total + (item.quantity || 1),
+      0
+    )
     cartCountElement.textContent = count
     if (count > 0) {
       cartCountElement.classList.remove('hide')
@@ -85,9 +82,9 @@ export function updateCartCount() {
 }
 
 export async function loadTemplate(path) {
-  const res = await fetch(path);
-  const template = await res.text();
-  return template;
+  const res = await fetch(path)
+  const template = await res.text()
+  return template
 }
 
 // dynamically creates a styled alert message
@@ -101,7 +98,7 @@ export function alertMessage(message, scroll = true, duration = 4000) {
       main.removeChild(this)
     }
   })
-  
+
   const main = document.querySelector('main')
   main.prepend(alert)
 
@@ -115,4 +112,13 @@ export function alertMessage(message, scroll = true, duration = 4000) {
       main.removeChild(alert)
     }
   }, duration)
+}
+
+export async function loadHeaderFooter() {
+  const headerTemplate = await loadTemplate('/partials/header.html')
+  const footerTemplate = await loadTemplate('/partials/footer.html')
+  const headerElement = document.querySelector('#main-header')
+  const footerElement = document.querySelector('#main-footer')
+  renderWithTemplate(headerTemplate, headerElement)
+  renderWithTemplate(footerTemplate, footerElement)
 }
