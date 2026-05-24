@@ -275,6 +275,66 @@ button {
   margin-bottom: 10px;
 }
 
+/* Style for Product Comments*/
+
+/* Product Comments */
+.product-comments {
+  max-width: 500px;
+  margin: 1.5em auto;
+  padding: 1em;
+  border: 1px solid var(--light-grey);
+}
+
+.product-comments h3 {
+  font-family: var(--font-body);
+  font-size: 1.6em;
+  color: var(--tertiary-color);
+  margin-bottom: 0.75em;
+}
+
+#commentForm {
+  display: grid;
+  gap: 0.75em;
+}
+
+#commentForm input,
+#commentForm textarea {
+  width: 100%;
+  padding: 0.75em;
+  border: 1px solid var(--light-grey);
+  font-family: var(--font-body);
+  font-size: 1em;
+}
+
+#commentForm textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+#commentForm button {
+  margin: 0;
+  background-color: var(--secondary-color);
+}
+
+#commentsList {
+  list-style: none;
+  margin-top: 1em;
+}
+
+#commentsList li {
+  border-top: 2px solid var(--primary-color);
+  padding: 0.75em 0;
+}
+
+#commentsList strong {
+  color: var(--tertiary-color);
+}
+
+#commentsList small {
+  font-size: var(--small-font);
+  color: #666;
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;

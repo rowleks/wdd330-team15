@@ -14,11 +14,14 @@ export default class ProductDetails {
       return
     }
     this.renderProductDetails()
-    document
-      .getElementById('addToCart')
+    
+    document.getElementById('addToCart')
       // We use an arrow function (or .bind(this)) to maintain the 'this' context of the class.
       // Without it, 'this' would refer to the button element instead of the ProductDetails instance.
       .addEventListener('click', e => this.addProductToCart(e))
+    this.renderComments()
+    this.setupCommentForm()
+
   }
 
   renderProductDetails() {
@@ -74,5 +77,64 @@ export default class ProductDetails {
 
     setLocalStorage('so-cart', cart)
     updateCartCount()
+  }
+  getComments() { 
+    const allComments = getLocalStorage('so-comments') || {}
+    return allComments[this.productId] || []
+  }
+  saveComment(comment) {
+    const allComments = getLocalStorage('so-comments') || {}
+
+    if (!allComments[this.productId]) {
+      allComments[this.productId] = []
+    }
+    allComments[this.productId].push(comment)
+    setLocalStorage('so-comments', allComments)
+  }
+
+  renderComments() {
+    const comments = this.getComments()
+    const commentsList = document.querySelector('#commentsList')
+
+    commentsList.textContent = ''
+
+    if (comments.length === 0) {
+      commentsList.innerHTML = `<li>No comments yet.</li>`
+      return
+    }
+
+    comments.forEach(comment => {
+      const li = document.createElement('li')
+      li.innerHTML = `
+      <strong>${comment.name}</strong>
+      <p>${comment.text}</p>
+      <small>${comment.date}</small>
+      `
+      commentsList.appendChild(li)
+    })
+  }
+  setupCommentForm() { 
+    const form = document.querySelector('#commentForm')
+
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+
+      const nameInput = document.querySelector('#commentName')
+      const textInput = document.querySelector('#commentText')
+
+      const name = nameInput.value.trim()
+      const text = textInput.value.trim()
+
+      if (!name || !text) return
+
+      const newComment = {
+        name,
+        text,
+        date: new Date().toLocaleDateString()
+      }
+      this.saveComment(newComment)
+      this.renderComments()
+      form.reset()
+    })
   }
 }
