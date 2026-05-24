@@ -18,7 +18,7 @@ productList.init()
 // Handle search form submission
 const searchForms = document.querySelectorAll('.search-form')
 searchForms.forEach(form => {
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', e => {
     e.preventDefault()
     const query = form.querySelector('.search-input').value.trim()
     if (query) {

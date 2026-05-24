@@ -1,4 +1,10 @@
-import { getLocalStorage, setClick, removeItemfromStorage, updateCartCount, alertMessage } from './utils.mjs'
+import {
+  getLocalStorage,
+  setClick,
+  removeItemfromStorage,
+  updateCartCount,
+  alertMessage,
+} from './utils.mjs'
 
 function renderCartContents() {
   const cartItems = getLocalStorage('so-cart') || []
@@ -22,7 +28,10 @@ function renderCartContents() {
   const cartFooter = document.querySelector('.cart-footer')
   if (cartItems && cartItems.length > 0) {
     cartFooter.classList.remove('hide')
-    const total = cartItems.reduce((sum, item) => sum + (item.FinalPrice * (item.quantity || 1)), 0)
+    const total = cartItems.reduce(
+      (sum, item) => sum + item.FinalPrice * (item.quantity || 1),
+      0
+    )
     document.querySelector('.cart-total').textContent =
       `Total: $${total.toFixed(2)}`
   } else {
