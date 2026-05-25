@@ -22,8 +22,8 @@ function productCardTemplate(product) {
 
   return `
     <li class="product-card">
-      <a href="product_pages/?product=${product.Id}">
-        <img src="${product.Image}" alt="${product.Name}">
+      <a href="/product_pages/?product=${product.Id}">
+        <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
         ${discountHtml}
         <h2>${product.Brand.Name}</h2>
         <h3>${product.Name}</h3>
@@ -41,18 +41,18 @@ export default class ProductList {
   }
 
   async init() {
-    let list = await this.dataSource.getData()
-    
-    // Filter tents to the top 4 main products as per BYU-I individual task rules
-    if (this.category === 'Tents') {
-      const topTents = ['880RR', '985RF', '985PR', '344YJ']
-      list = list.filter(item => topTents.includes(item.Id))
-    }
-    
+    let list = await this.dataSource.getData(this.category)
+
     this.renderList(list)
   }
 
   renderList(productList) {
-    renderListWithTemplate(productCardTemplate, this.listElement, productList, 'afterbegin', true)
+    renderListWithTemplate(
+      productCardTemplate,
+      this.listElement,
+      productList,
+      'afterbegin',
+      true
+    )
   }
 }

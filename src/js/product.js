@@ -5,7 +5,7 @@ import ProductDetails from './productDetails.mjs'
 loadHeaderFooter()
 updateCartCount()
 
-const dataSource = new ProductData('tents')
+const dataSource = new ProductData()
 
 const productId = getParam('product')
 

@@ -180,6 +180,11 @@ button {
   padding: 1rem;
 }
 
+.product_category_title {
+  text-transform: capitalize;
+  margin-block: 1rem;
+}
+
 .product-list {
   display: flex;
   flex-flow: row wrap;
@@ -302,6 +307,10 @@ button {
   margin: 1.5em auto;
   padding: 1em;
   border: 1px solid var(--light-grey);
+}
+
+.hide {
+  display: none;
 }
 
 .product-comments h3 {
