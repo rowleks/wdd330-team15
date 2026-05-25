@@ -185,6 +185,22 @@ button {
   margin-block: 1rem;
 }
 
+.title_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#sort-filter {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--light-grey);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+}
+
 .product-list {
   display: flex;
   flex-flow: row wrap;
