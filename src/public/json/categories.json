@@ -1,0 +1,22 @@
+[
+  {
+    "id": "tents",
+    "name": "Tents",
+    "icon": "category-tents.svg"
+  },
+  {
+    "id": "backpacks",
+    "name": "Backpacks",
+    "icon": "category-backpacks.svg"
+  },
+  {
+    "id": "sleeping-bags",
+    "name": "Sleeping Bags",
+    "icon": "category-sleepingbags.svg"
+  },
+  {
+    "id": "hammocks",
+    "name": "Hammocks",
+    "icon": "category-hammocks.svg"
+  }
+]

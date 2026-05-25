@@ -1,28 +1,29 @@
 import Alert from './Alert.js'
 import { updateCartCount, loadHeaderFooter } from './utils.mjs'
-import ProductData from './ProductData.mjs'
-import ProductList from './ProductList.mjs'
 
 new Alert()
 updateCartCount()
 loadHeaderFooter()
+loadProductCategories()
 
-const dataSource = new ProductData('tents')
+async function loadProductCategories() {
+  const res = await fetch('/json/categories.json')
+  const categories = await res.json()
 
-const element = document.querySelector('.product-list')
+  if (!categories) {
+    return
+  }
 
-const productList = new ProductList('Tents', dataSource, element)
+  const categoryList = document.querySelector('.category-list')
+  const template = document.getElementById('category-card-template')
 
-productList.init()
-
-// Handle search form submission
-const searchForms = document.querySelectorAll('.search-form')
-searchForms.forEach(form => {
-  form.addEventListener('submit', e => {
-    e.preventDefault()
-    const query = form.querySelector('.search-input').value.trim()
-    if (query) {
-      window.location.href = `search/?q=${encodeURIComponent(query)}`
-    }
+  categories.forEach(category => {
+    const clone = template.content.cloneNode(true)
+    const [link, image, title] = clone.querySelectorAll('a, img, h3')
+    link.href = `/product_listing/?category=${category.id}`
+    image.src = `/images/icons/${category.icon}`
+    image.alt = category.name
+    title.textContent = category.name
+    categoryList.appendChild(clone)
   })
-})
+}

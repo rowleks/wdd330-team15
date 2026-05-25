@@ -1,4 +1,10 @@
-import { getLocalStorage, qs, setLocalStorage, updateCartCount, alertMessage } from './utils.mjs'
+import {
+  getLocalStorage,
+  qs,
+  setLocalStorage,
+  updateCartCount,
+  alertMessage,
+} from './utils.mjs'
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -7,47 +13,55 @@ export default class ProductDetails {
     this.product = null
   }
   async init() {
-    this.product = await this.dataSource.findProductById(this.productId)
-    if (!this.product) {
-      document.querySelector('.product-detail').innerHTML =
-        '<h2>Product not found.</h2>'
-      return
-    }
-    this.renderProductDetails()
-    
-    document.getElementById('addToCart')
-      // We use an arrow function (or .bind(this)) to maintain the 'this' context of the class.
-      // Without it, 'this' would refer to the button element instead of the ProductDetails instance.
-      .addEventListener('click', e => this.addProductToCart(e))
-    this.renderComments()
-    this.setupCommentForm()
+    try {
+      this.product = await this.dataSource.findProductById(this.productId)
+      if (!this.product) {
+        document.querySelector('.product-detail').innerHTML =
+          '<h2>Product not found.</h2>'
+        document.querySelector('.comment-section').classList.add('hide')
+        return
+      }
+      this.renderProductDetails()
 
+      document
+        .getElementById('addToCart')
+        // We use an arrow function (or .bind(this)) to maintain the 'this' context of the class.
+        // Without it, 'this' would refer to the button element instead of the ProductDetails instance.
+        .addEventListener('click', e => this.addProductToCart(e))
+      this.renderComments()
+      this.setupCommentForm()
+    } catch (error) {
+      document.querySelector('.product-detail').innerHTML =
+        '<h2>Something went wrong.</h2>'
+      document.querySelector('.comment-section').classList.add('hide')
+    }
   }
 
   renderProductDetails() {
     document.title = `Sleep Outside | ${this.product.Name}`
     const template = document.getElementById('product-template')
     const clone = template.content.cloneNode(true)
+    document.querySelector('.comment-section').classList.remove('hide')
 
     qs('#productBrandName', clone).textContent = this.product.Brand.Name
     qs('#productName', clone).textContent = this.product.NameWithoutBrand
-    qs('#productImage', clone).src = this.product.Image
+    qs('#productImage', clone).src = this.product.Images.PrimaryLarge
     qs('#productImage', clone).alt = this.product.Name
-    
+
     // Format prices defensively
     const retail = Number(this.product.SuggestedRetailPrice)
     const final = Number(this.product.FinalPrice)
-    
+
     qs('#productPrice', clone).textContent = `$${final.toFixed(2)}`
-    
+
     if (retail && retail > final) {
       const discount = retail - final
       const discountPercent = Math.round((discount / retail) * 100)
-      
+
       const retailPriceEl = qs('#productRetailPrice', clone)
       retailPriceEl.textContent = `$${retail.toFixed(2)}`
       retailPriceEl.classList.remove('hide')
-      
+
       const discountEl = qs('#productDiscount', clone)
       discountEl.textContent = `${discountPercent}% OFF (Save $${discount.toFixed(2)})`
       discountEl.classList.remove('hide')
@@ -64,11 +78,13 @@ export default class ProductDetails {
   addProductToCart(e) {
     e.preventDefault()
     const cart = getLocalStorage('so-cart') || []
-    
+
     const existingItem = cart.find(item => item.Id === this.product.Id)
     if (existingItem) {
       existingItem.quantity = (existingItem.quantity || 1) + 1
-      alertMessage(`${this.product.NameWithoutBrand} quantity increased to ${existingItem.quantity}!`)
+      alertMessage(
+        `${this.product.NameWithoutBrand} quantity increased to ${existingItem.quantity}!`
+      )
     } else {
       const productWithQty = { ...this.product, quantity: 1 }
       cart.push(productWithQty)
@@ -78,7 +94,7 @@ export default class ProductDetails {
     setLocalStorage('so-cart', cart)
     updateCartCount()
   }
-  getComments() { 
+  getComments() {
     const allComments = getLocalStorage('so-comments') || {}
     return allComments[this.productId] || []
   }
@@ -113,7 +129,7 @@ export default class ProductDetails {
       commentsList.appendChild(li)
     })
   }
-  setupCommentForm() { 
+  setupCommentForm() {
     const form = document.querySelector('#commentForm')
 
     form.addEventListener('submit', e => {
@@ -130,7 +146,7 @@ export default class ProductDetails {
       const newComment = {
         name,
         text,
-        date: new Date().toLocaleDateString()
+        date: new Date().toLocaleDateString(),
       }
       this.saveComment(newComment)
       this.renderComments()

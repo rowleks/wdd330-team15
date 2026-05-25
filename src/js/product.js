@@ -5,7 +5,7 @@ import ProductDetails from './productDetails.mjs'
 loadHeaderFooter()
 updateCartCount()
 
-const dataSource = new ProductData('tents')
+const dataSource = new ProductData()
 
 const productId = getParam('product')
 
@@ -19,6 +19,7 @@ const initProductDetail = async () => {
   try {
     await productDetails.init()
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error)
   }
 }

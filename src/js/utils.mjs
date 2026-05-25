@@ -121,4 +121,22 @@ export async function loadHeaderFooter() {
   const footerElement = document.querySelector('#main-footer')
   renderWithTemplate(headerTemplate, headerElement)
   renderWithTemplate(footerTemplate, footerElement)
+  setupSearch()
+}
+
+// helper to setup search form listeners
+export function setupSearch() {
+  const searchForms = document.querySelectorAll('.search-form')
+  searchForms.forEach(form => {
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      const input = qs('.search-input', form)
+      if (input) {
+        const query = input.value.trim()
+        if (query) {
+          window.location.href = `/search/?q=${encodeURIComponent(query)}`
+        }
+      }
+    })
+  })
 }
