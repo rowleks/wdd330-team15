@@ -32,7 +32,7 @@ export default class ProductDetails {
       this.setupCommentForm()
     } catch (error) {
       document.querySelector('.product-detail').innerHTML =
-        'Something went wrong.</h2>'
+        '<h2>Something went wrong.</h2>'
       document.querySelector('.comment-section').classList.add('hide')
     }
   }
