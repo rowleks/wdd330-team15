@@ -1,5 +1,12 @@
 import { renderListWithTemplate } from './utils.mjs'
 
+const sortStrategies = {
+  'name-asc': (a, b) => a.Name.localeCompare(b.Name),
+  'name-desc': (a, b) => b.Name.localeCompare(a.Name),
+  'price-asc': (a, b) => Number(a.FinalPrice) - Number(b.FinalPrice),
+  'price-desc': (a, b) => Number(b.FinalPrice) - Number(a.FinalPrice),
+}
+
 function productCardTemplate(product) {
   const retail = Number(product.SuggestedRetailPrice)
   const final = Number(product.FinalPrice)
@@ -42,18 +49,14 @@ export default class ProductList {
   }
 
   async init() {
-    let list = await this.dataSource.getData(this.category)
-    list = this.sortList(list)
-    this.renderList(list)
+    const list = await this.dataSource.getData(this.category)
+    const sortedList = this.sortList(list)
+    this.renderList(sortedList)
   }
 
   sortList(list) {
-    if (this.sort === 'name') {
-      return list.sort((a, b) => a.Name.localeCompare(b.Name))
-    } else if (this.sort === 'price') {
-      return list.sort((a, b) => a.FinalPrice - b.FinalPrice)
-    }
-    return list
+    const sortFunction = sortStrategies[this.sort]
+    return sortFunction ? [...list].sort(sortFunction) : list
   }
 
   renderList(productList) {

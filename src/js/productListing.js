@@ -10,11 +10,18 @@ loadHeaderFooter()
 const sortFilter = document.querySelector('#sort-filter')
 
 const category = getParam('category')
-const sort = getParam('sort')
+const validSorts = ['name-asc', 'name-desc', 'price-asc', 'price-desc']
+const sortParam = getParam('sort')
+const sort = validSorts.includes(sortParam) ? sortParam : ''
 
 sortFilter.addEventListener('change', event => {
   const selectedValue = event.target.value
-  window.location.href = `/product_listing/?category=${category}&sort=${selectedValue}`
+  const params = new URLSearchParams(window.location.search)
+
+  params.set('category', category)
+  params.set('sort', selectedValue)
+
+  window.location.href = `/product_listing/?${params.toString()}`
 })
 
 document.querySelector('.product_category_title').textContent =
@@ -31,5 +38,3 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   productList.init()
 })
-
-productList.init()
