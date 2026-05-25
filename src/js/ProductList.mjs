@@ -34,16 +34,26 @@ function productCardTemplate(product) {
 }
 
 export default class ProductList {
-  constructor(category, dataSource, listElement) {
+  constructor(category, dataSource, listElement, sort = '') {
     this.category = category
     this.dataSource = dataSource
     this.listElement = listElement
+    this.sort = sort
   }
 
   async init() {
     let list = await this.dataSource.getData(this.category)
-
+    list = this.sortList(list)
     this.renderList(list)
+  }
+
+  sortList(list) {
+    if (this.sort === 'name') {
+      return list.sort((a, b) => a.Name.localeCompare(b.Name))
+    } else if (this.sort === 'price') {
+      return list.sort((a, b) => a.FinalPrice - b.FinalPrice)
+    }
+    return list
   }
 
   renderList(productList) {

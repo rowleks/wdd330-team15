@@ -140,3 +140,5 @@ export function setupSearch() {
     })
   })
 }
+
+export function applySort() {}

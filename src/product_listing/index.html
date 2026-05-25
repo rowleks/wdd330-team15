@@ -12,7 +12,17 @@
     <header class="divider" id="main-header"></header>
     <main class="divider">
       <section class="products">
-        <h2 class="product_category_title"></h2>
+        <div class="title_container">
+          <h2 class="product_category_title"></h2>
+          <div class="filter-container">
+            <label for="sort-filter">Sort by:</label>
+            <select id="sort-filter">
+              <option value="" disabled selected>Select...</option>
+              <option value="name">Name</option>
+              <option value="price">Price</option>
+            </select>
+          </div>
+        </div>
         <ul class="product-list"></ul>
       </section>
     </main>
