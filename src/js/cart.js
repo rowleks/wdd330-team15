@@ -6,9 +6,9 @@ import {
   alertMessage,
 } from './utils.mjs'
 
-import { loadHeaderFooter } from "./utils.mjs";
+import { loadHeaderFooter } from './utils.mjs'
 
-loadHeaderFooter();
+loadHeaderFooter()
 
 function renderCartContents() {
   const cartItems = getLocalStorage('so-cart') || []
@@ -44,8 +44,7 @@ function renderCartContents() {
   updateCartCount()
 }
 
-document.querySelector(".cart-footer").classList.remove("hide");
-
+document.querySelector('.cart-footer').classList.remove('hide')
 
 function cartItemTemplate(item) {
   const qty = item.quantity || 1
