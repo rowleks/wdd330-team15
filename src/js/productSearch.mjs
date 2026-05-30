@@ -77,9 +77,9 @@ export default class ProductSearch {
 
   performSearch(query) {
     const results = this.allProducts.filter((product) => {
-      const name = product.Name.toLowerCase()
-      const brand = product.Brand.Name.toLowerCase()
-      const nameWithoutBrand = product.NameWithoutBrand.toLowerCase()
+      const name = (product.Name || '').toLowerCase()
+      const brand = (product.Brand && product.Brand.Name || '').toLowerCase()
+      const nameWithoutBrand = (product.NameWithoutBrand || '').toLowerCase()
       const description = (product.DescriptionHtmlSimple || '').toLowerCase()
 
       return (
