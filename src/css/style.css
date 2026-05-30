@@ -610,3 +610,12 @@ footer {
     max-width: 300px;
   }
 }
+footer {
+  background-color: var(--dark-grey);
+  color: var(--light-grey);
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  border-top: 2px solid var(--primary-color);
+}
