@@ -1,4 +1,7 @@
 import { renderListWithTemplate } from './utils.mjs'
+import { loadHeaderFooter } from "./utils.mjs";
+
+loadHeaderFooter();
 
 function productCardTemplate(product) {
   const retail = Number(product.SuggestedRetailPrice)

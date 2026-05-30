@@ -1,8 +1,20 @@
-const headerTemplate = await loadTemplate("../partials/header.html");
+//const headerTemplate = await loadTemplate("../partials/header.html");
+//const headerElement = document.querySelector("#main-header");
+//renderWithTemplate(headerTemplate, headerElement);
+export async function loadHeaderFooter() {
+  // 1. Load the header and footer HTML from partials
+  const headerTemplate= await loadTemplate("/public/partials/header.html");
+  const footerTemplate = await loadTemplate("/public/partials/footer.html");
 
-const headerElement = document.querySelector("#main-header");
+  // 2. Grab the placeholder elements from the DOM
+  const headerElement = document.querySelector("#main-header");
+  const footerElement = document.querySelector("#main-footer");
 
-renderWithTemplate(headerTemplate, headerElement);
+  // 3. Render the templates using renderWithTemplate
+  renderWithTemplate(headerTemplate, headerElement);
+  renderWithTemplate(footerTemplate, footerElement);
+}
+
 
 // wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
@@ -56,12 +68,22 @@ export function renderListWithTemplate(
   parentElement.insertAdjacentHTML(position, htmlStrings.join(''))
 }
 
+//export function renderWithTemplate(template, parentElement, data, callback) {
+  // clone the template content
+  //const clone = template.content.cloneNode(true);
+ // run callback if provided
+  //if (callback) {
+  //callback(clone, data);
+  // insert the cloned template into the parent element
+  //parentElement.appendChild(clone);
+
 export function renderWithTemplate(template, parentElement, data, callback) {
   parentElement.innerHTML = template;
   if (callback) {
     callback(data);
   }
 }
+
 
 // dynamically updates the backpack cart count superscript badge
 export function updateCartCount() {
@@ -83,7 +105,7 @@ export function updateCartCount() {
     }
   }
 }
-
+// This function only loads and returns a text content or string from a file
 export async function loadTemplate(path) {
   const res = await fetch(path);
   const template = await res.text();
