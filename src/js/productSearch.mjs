@@ -1,5 +1,7 @@
 import { renderListWithTemplate } from './utils.mjs'
 
+const baseURL = import.meta.env.VITE_SERVER_URL
+
 const productCardTemplate = (product) => {
   const retail = Number(product.SuggestedRetailPrice)
   const final = Number(product.FinalPrice)
@@ -47,14 +49,18 @@ export default class ProductSearch {
   }
 
   async loadAllProducts() {
-    try {
-      for (const category of this.categories) {
-        const response = await fetch(`/json/${category}.json`)
-        const products = await response.json()
+    for (const category of this.categories) {
+      try {
+        const response = await fetch(`${baseURL}products/search/${category}`)
+        if (!response.ok) {
+          throw new Error(`Failed to fetch ${category}: ${response.statusText}`)
+        }
+        const data = await response.json()
+        const products = data.Result || []
         this.allProducts.push(...products)
+      } catch (err) {
+        console.error(`Error loading category ${category}:`, err)
       }
-    } catch (error) {
-      console.error('Error loading products:', error)
     }
   }
 
