@@ -82,7 +82,28 @@ export function updateCartCount() {
 }
 
 export async function loadTemplate(path) {
-  const res = await fetch(path)
+  // Try Vite path first (for Vite dev server)
+  console.log('Trying to load:', path)
+  let res = await fetch(path).catch(err => {
+    console.log('Vite path failed:', path, err)
+    return null
+  })
+
+  // If that fails, try Five Server path
+  if (!res) {
+    const altPath = `/src/public${path}`
+    console.log('Trying alternative path:', altPath)
+    res = await fetch(altPath).catch(err => {
+      console.log('Five Server path failed:', altPath, err)
+      return null
+    })
+  }
+
+  // If both fail, throw error
+  if (!res) {
+    throw new Error(`Unable to load template: ${path}`)
+  }
+
   const template = await res.text()
   return template
 }
@@ -115,13 +136,25 @@ export function alertMessage(message, scroll = true, duration = 4000) {
 }
 
 export async function loadHeaderFooter() {
-  const headerTemplate = await loadTemplate('/partials/header.html')
-  const footerTemplate = await loadTemplate('/partials/footer.html')
-  const headerElement = document.querySelector('#main-header')
-  const footerElement = document.querySelector('#main-footer')
-  renderWithTemplate(headerTemplate, headerElement)
-  renderWithTemplate(footerTemplate, footerElement)
-  setupSearch()
+  try {
+    console.log('Loading header/footer...')
+    const headerTemplate = await loadTemplate('/partials/header.html')
+    console.log('Header template loaded:', headerTemplate.slice(0, 50))
+    const footerTemplate = await loadTemplate('/partials/footer.html')
+    console.log('Footer template loaded:', footerTemplate.slice(0, 50))
+
+    const headerElement = document.querySelector('#main-header')
+    const footerElement = document.querySelector('#main-footer')
+
+    console.log('Header element:', headerElement)
+    console.log('Footer element:', footerElement)
+
+    if (headerElement) renderWithTemplate(headerTemplate, headerElement)
+    if (footerElement) renderWithTemplate(footerTemplate, footerElement)
+    setupSearch()
+  } catch (error) {
+    console.error('Error loading header/footer:', error)
+  }
 }
 
 // helper to setup search form listeners

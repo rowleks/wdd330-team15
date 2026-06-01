@@ -534,3 +534,88 @@ footer {
 .hide {
   display: none;
 }
+
+/* Search Section Styles */
+.search-section {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  border-radius: 5%;
+}
+
+.search-section h2 {
+  font-family: var(--font-headline);
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+  font-size: 1.5em;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 600px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  border: 5px solid var(--light-grey);
+  border-radius: 1px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px rgba(240, 168, 104, 0.3);
+}
+
+.search-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* Search Results Product Cards - Match main product cards */
+.search-results-list .product-card {
+  flex: 1 1 45%;
+  margin: 0.25em;
+  padding: 0.5em;
+  border: 1px solid var(--light-grey);
+  max-width: 250px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-results-list .product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design for Search */
+@media screen and (max-width: 768px) {
+  .search-section {
+    padding: 1rem;
+  }
+
+  .search-input {
+    max-width: 100%;
+  }
+
+  .search-results-list .product-card {
+    flex: 1 1 100%;
+    max-width: none;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .search-results-list .product-card {
+    flex: 1 1 45%;
+    max-width: 300px;
+  }
+}
+footer {
+  background-color: var(--dark-grey);
+  color: var(--light-grey);
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  border-top: 2px solid var(--primary-color);
+}
