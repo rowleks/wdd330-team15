@@ -1,6 +1,6 @@
 import Alert from './Alert.js'
 import { updateCartCount, loadHeaderFooter } from './utils.mjs'
-import ProductSearch from './ProductSearch.mjs'
+import ProductSearch from './productSearch.mjs'
 
 new Alert()
 updateCartCount()
