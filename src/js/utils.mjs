@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector)

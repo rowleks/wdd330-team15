@@ -1,6 +1,6 @@
 import Alert from './Alert.js'
 import { updateCartCount, loadHeaderFooter, getParam } from './utils.mjs'
-import ProductData from './ProductData.mjs'
+import ExternalServices from './ExternalServices.mjs'
 import ProductList from './ProductList.mjs'
 
 new Alert()
@@ -27,7 +27,7 @@ sortFilter.addEventListener('change', event => {
 document.querySelector('.product_category_title').textContent =
   `Top Products: ${category}`
 
-const dataSource = new ProductData()
+const dataSource = new ExternalServices()
 const element = document.querySelector('.product-list')
 
 const productList = new ProductList(category, dataSource, element, sort)
