@@ -1,9 +1,4 @@
-import {
-  getLocalStorage,
-  loadHeaderFooter,
-  qs,
-  updateCartCount,
-} from './utils.mjs'
+import { getLocalStorage, qs, updateCartCount } from './utils.mjs'
 
 const TAX_RATE = 0.06
 const SHIPPING_FLAT = 10
@@ -59,7 +54,7 @@ export default class CheckoutProcess {
     }
 
     const success = await this.checkout(event.currentTarget).catch(e => {
-      this.message.textContent = 'Something went wrong, try again'
+      this.message.textContent = e.message ?? 'Something went wrong'
       this.message.classList.remove('hide')
       // eslint-disable-next-line no-console
       console.error(e)
