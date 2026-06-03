@@ -3,6 +3,7 @@ import {
   removeItemfromStorage,
   alertMessage,
   qs,
+  updateCartCount,
 } from './utils.mjs'
 
 export default class ShoppingCart {
@@ -29,6 +30,7 @@ export default class ShoppingCart {
 
     this.updateFooter(cartItems)
     this.bindRemoveButtons(cartItems)
+    updateCartCount()
   }
 
   fillTemplate(clone, item) {

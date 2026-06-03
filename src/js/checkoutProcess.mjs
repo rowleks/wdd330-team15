@@ -1,4 +1,9 @@
-import { getLocalStorage, loadHeaderFooter, qs } from './utils.mjs'
+import {
+  getLocalStorage,
+  loadHeaderFooter,
+  qs,
+  updateCartCount,
+} from './utils.mjs'
 
 const TAX_RATE = 0.06
 const SHIPPING_FLAT = 10
@@ -66,10 +71,10 @@ export default class CheckoutProcess {
     this.message.classList.remove('hide')
 
     //Clear and reset everything
-    localStorage.clear()
+    localStorage.removeItem('so-cart')
     this.form.reset()
     this.renderOrderSummary()
-    loadHeaderFooter()
+    updateCartCount()
     this.updateSubmitState()
   }
 
@@ -94,10 +99,12 @@ export default class CheckoutProcess {
   }
 
   calculateShippingFee(cartItems) {
-    const items = cartItems.length
-    if (items < 1) return 0
-    if (items === 1) return SHIPPING_FLAT
-    return SHIPPING_FLAT + 2 * (items - 1)
+    const totalItems = cartItems.reduce(
+      (sum, item) => sum + (item.quantity || 1),
+      0
+    )
+    if (totalItems < 1) return 0
+    return SHIPPING_FLAT + 2 * (totalItems - 1)
   }
 
   packageItems(cartItems) {
