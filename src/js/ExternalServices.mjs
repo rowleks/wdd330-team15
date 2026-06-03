@@ -16,9 +16,21 @@ export default class ExternalServices {
   }
 
   async findProductById(id) {
-    const res = await fetch(`${baseURL}products/${id}`)
+    const res = await fetch(`${baseURL}product/${id}`)
     const product = await convertToJson(res)
     return product.Result
+  }
+
+  async processCheckout(payload) {
+    const res = await fetch(`${baseURL}checkout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    return await convertToJson(res)
   }
 
   async searchProducts() {

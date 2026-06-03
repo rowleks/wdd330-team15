@@ -1,14 +1,19 @@
-import { getLocalStorage, qs } from './utils.mjs'
+import { getLocalStorage, loadHeaderFooter, qs } from './utils.mjs'
 
 const TAX_RATE = 0.06
 const SHIPPING_FLAT = 10
 
 export default class CheckoutProcess {
-  constructor() {
+  constructor(dataSource) {
     this.form = qs('#checkout-form')
     this.submitBtn = qs('#checkout-submit')
     this.message = qs('#checkout-form-message')
     this.fields = [...this.form.querySelectorAll('input[required]')]
+    this.cartItems = this.subtotal = 0
+    this.tax = 0
+    this.shipping = 0
+    this.total = 0
+    this.dataSource = dataSource
   }
 
   init() {
@@ -36,7 +41,7 @@ export default class CheckoutProcess {
     }
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault()
     this.updateSubmitState()
 
@@ -48,26 +53,40 @@ export default class CheckoutProcess {
       return
     }
 
+    const success = await this.checkout(event.currentTarget).catch(e => {
+      this.message.textContent = 'Something went wrong, try again'
+      this.message.classList.remove('hide')
+      // eslint-disable-next-line no-console
+      console.error(e)
+    })
+
+    if (!success) return
+
     this.message.textContent = 'Order placed! Thank you for your purchase.'
     this.message.classList.remove('hide')
+
+    //Clear and reset everything
+    localStorage.clear()
     this.form.reset()
+    this.renderOrderSummary()
+    loadHeaderFooter()
     this.updateSubmitState()
   }
 
   renderOrderSummary() {
     const cartItems = getLocalStorage('so-cart') || []
-    const subtotal = cartItems.reduce(
+    this.subtotal = cartItems.reduce(
       (sum, item) => sum + item.FinalPrice * (item.quantity || 1),
       0
     )
-    const tax = subtotal * TAX_RATE
-    const shipping = this.calculateShippingFee(cartItems)
-    const total = subtotal + tax + shipping
+    this.tax = this.subtotal * TAX_RATE
+    this.shipping = this.calculateShippingFee(cartItems)
+    this.total = this.subtotal + this.tax + this.shipping
 
-    qs('#summary-subtotal').textContent = this.formatMoney(subtotal)
-    qs('#summary-tax').textContent = this.formatMoney(tax)
-    qs('#summary-shipping').textContent = this.formatMoney(shipping)
-    qs('#summary-total').textContent = this.formatMoney(total)
+    qs('#summary-subtotal').textContent = this.formatMoney(this.subtotal)
+    qs('#summary-tax').textContent = this.formatMoney(this.tax)
+    qs('#summary-shipping').textContent = this.formatMoney(this.shipping)
+    qs('#summary-total').textContent = this.formatMoney(this.total)
   }
 
   formatMoney(amount) {
@@ -79,5 +98,30 @@ export default class CheckoutProcess {
     if (items < 1) return 0
     if (items === 1) return SHIPPING_FLAT
     return SHIPPING_FLAT + 2 * (items - 1)
+  }
+
+  packageItems(cartItems) {
+    return cartItems.map(item => ({
+      id: item.Id,
+      name: item.Name,
+      price: item.FinalPrice,
+      quantity: item.quantity || 1,
+    }))
+  }
+
+  async checkout(form) {
+    const data = Object.fromEntries(new FormData(form))
+
+    const enhancedData = {
+      ...data,
+      orderDate: new Date().toISOString(),
+      items: this.packageItems(getLocalStorage('so-cart')),
+      subtotal: this.subtotal.toFixed(2),
+      tax: this.tax.toFixed(2),
+      shipping: this.shipping.toFixed(2),
+      total: this.total.toFixed(2),
+    }
+
+    return await this.dataSource.processCheckout(enhancedData)
   }
 }

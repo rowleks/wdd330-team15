@@ -28,7 +28,7 @@
               <input
                 type="text"
                 id="first-name"
-                name="firstName"
+                name="fname"
                 required
                 autocomplete="given-name"
               />
@@ -36,7 +36,7 @@
               <input
                 type="text"
                 id="last-name"
-                name="lastName"
+                name="lname"
                 required
                 autocomplete="family-name"
               />
@@ -86,6 +86,7 @@
             <fieldset class="checkout-fieldset">
               <legend>Payment</legend>
               <label for="card-number">Credit Card Number</label>
+              <!-- Use the hardcode cardnumber as this is what the backend expects -->
               <input
                 type="text"
                 id="card-number"
@@ -94,12 +95,13 @@
                 inputmode="numeric"
                 autocomplete="cc-number"
                 maxlength="19"
+                value="1234123412341234"
               />
               <label for="card-expiry">Expiration Date</label>
               <input
                 type="text"
                 id="card-expiry"
-                name="cardExpiry"
+                name="expiration"
                 required
                 placeholder="MM/YY"
                 autocomplete="cc-exp"
@@ -109,7 +111,7 @@
               <input
                 type="text"
                 id="card-cvv"
-                name="cardCvv"
+                name="code"
                 required
                 inputmode="numeric"
                 autocomplete="cc-csc"
@@ -117,9 +119,15 @@
               />
             </fieldset>
 
-            <p id="checkout-form-message" class="checkout-form-message hide" role="alert"></p>
+            <p
+              id="checkout-form-message"
+              class="checkout-form-message hide"
+              role="alert"
+            ></p>
 
-            <button type="submit" id="checkout-submit" disabled>Checkout</button>
+            <button type="submit" id="checkout-submit" disabled>
+              Checkout
+            </button>
           </form>
 
           <aside class="order-summary" aria-labelledby="order-summary-heading">
