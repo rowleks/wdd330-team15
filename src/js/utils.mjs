@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector)
@@ -20,6 +21,7 @@ export function removeItemfromStorage(id) {
   const updatedCart = cartItems.filter(item => item.Id !== id)
   setLocalStorage('so-cart', updatedCart)
 }
+
 // set a listener for both touchend and click
 export function setClick(selector, callback) {
   qs(selector).addEventListener('touchend', event => {
@@ -83,9 +85,8 @@ export function updateCartCount() {
 
 export async function loadTemplate(path) {
   // Try Vite path first (for Vite dev server)
-  console.log('Trying to load:', path)
   let res = await fetch(path).catch(err => {
-    console.log('Vite path failed:', path, err)
+    console.error('Vite path failed:', path, err)
     return null
   })
 
@@ -137,21 +138,16 @@ export function alertMessage(message, scroll = true, duration = 4000) {
 
 export async function loadHeaderFooter() {
   try {
-    console.log('Loading header/footer...')
     const headerTemplate = await loadTemplate('/partials/header.html')
-    console.log('Header template loaded:', headerTemplate.slice(0, 50))
     const footerTemplate = await loadTemplate('/partials/footer.html')
-    console.log('Footer template loaded:', footerTemplate.slice(0, 50))
 
     const headerElement = document.querySelector('#main-header')
     const footerElement = document.querySelector('#main-footer')
 
-    console.log('Header element:', headerElement)
-    console.log('Footer element:', footerElement)
-
     if (headerElement) renderWithTemplate(headerTemplate, headerElement)
     if (footerElement) renderWithTemplate(footerTemplate, footerElement)
     setupSearch()
+    updateCartCount()
   } catch (error) {
     console.error('Error loading header/footer:', error)
   }

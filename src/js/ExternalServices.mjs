@@ -1,14 +1,20 @@
 const baseURL = import.meta.env.VITE_SERVER_URL
 
-function convertToJson(res) {
+async function convertToJson(res) {
+  const body = await res.json()
   if (res.ok) {
-    return res.json()
+    return body
   } else {
-    throw new Error('Bad Response')
+    const msg = Object.values(body)
+
+    throw {
+      name: 'Service Error',
+      message: msg || 'Something went wrong',
+    }
   }
 }
 
-export default class ProductData {
+export default class ExternalServices {
   async getData(category) {
     const response = await fetch(`${baseURL}products/search/${category}`)
     const data = await convertToJson(response)
@@ -16,9 +22,21 @@ export default class ProductData {
   }
 
   async findProductById(id) {
-    const res = await fetch(`${baseURL}products/${id}`)
+    const res = await fetch(`${baseURL}product/${id}`)
     const product = await convertToJson(res)
     return product.Result
+  }
+
+  async processCheckout(payload) {
+    const res = await fetch(`${baseURL}checkout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    return await convertToJson(res)
   }
 
   async searchProducts() {

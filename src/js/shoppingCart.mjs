@@ -1,9 +1,9 @@
 import {
   getLocalStorage,
   removeItemfromStorage,
-  updateCartCount,
   alertMessage,
   qs,
+  updateCartCount,
 } from './utils.mjs'
 
 export default class ShoppingCart {
@@ -37,11 +37,11 @@ export default class ShoppingCart {
     const qty = item.quantity || 1
     const lineTotal = item.FinalPrice * qty
 
-    qs('.cart-card__image img', clone).src = item.Image
+    qs('.cart-card__image img', clone).src = item.Images.PrimarySmall
     qs('.cart-card__image img', clone).alt = item.Name
     qs('.card__name', clone).textContent = item.Name
     qs('.cart-card__color', clone).textContent = item.Colors[0].ColorName
-    qs('.cart-card__quantity', clone).textContent = `qty: ${qty}`
+    qs('.cart-card__quantity', clone).textContent = `Quantity: ${qty}`
     qs('.cart-card__price', clone).textContent = `$${lineTotal.toFixed(2)}`
     qs('.cart-card__remove', clone).dataset.id = item.Id
   }
