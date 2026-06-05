@@ -123,15 +123,6 @@ export default class CheckoutProcess {
       shipping: this.shipping.toFixed(2),
       total: this.total.toFixed(2),
     }
-
-    try {
-      return await this.dataSource.processCheckout(enhancedData)
-    } catch (err) {
-      this.message.textContent = err.message ?? 'Something went wrong'
-      this.message.classList.remove('hide')
-      // eslint-disable-next-line no-console
-      console.error(err)
-      throw err
-    }
+    return await this.dataSource.processCheckout(enhancedData)
   }
 }
