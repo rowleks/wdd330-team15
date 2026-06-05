@@ -36,7 +36,51 @@ function productCardTemplate(product) {
         <h3>${product.Name}</h3>
         ${priceHtml}
       </a>
+
+      <span class="product-card__quick-view">
+        <button
+          type="button"
+          class="product-card__quick-view-btn"
+          command="show-modal"
+          commandfor="quick-view-${product.Id}"
+        >
+          Quick view
+        </button>
+
+        <dialog id="quick-view-${product.Id}" class="quick-view-dialog">
+          <div class="quick-view-dialog__content">
+            <img
+              class="quick-view-dialog__image"
+              src="${product.Images.PrimarySmall}"
+              alt="${product.Name}"
+            >
+            <div class="quick-view-dialog__details">
+              <h2 class="quick-view-dialog__brand">${product.Brand.Name}</h2>
+              <h3 class="quick-view-dialog__name">${product.Name}</h3>
+              <div class="quick-view-dialog__description">
+                ${product.DescriptionHtmlSimple}
+              </div>
+              <a
+                class="quick-view-dialog__link"
+                href="/product_pages/?product=${product.Id}"
+              >
+                View full details
+              </a>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="quick-view-dialog__close"
+            commandfor="quick-view-${product.Id}"
+            command="close"
+          >
+            Close
+          </button>
+        </dialog>
+      </span>
     </li>
+
+    
     `
 }
 
