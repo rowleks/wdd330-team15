@@ -262,6 +262,121 @@ button {
   font-size: 1em;
 }
 
+.product-card__quick-view {
+  margin-top: 0.5em;
+  text-align: center;
+}
+
+.product-card__quick-view-btn {
+  font-size: var(--small-font);
+  padding: 0.4em 1.25em;
+  margin: 0.25em auto 0;
+}
+
+.quick-view-dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 0;
+  max-width: min(120vw, 600px);
+  width: 100%;
+  max-height: calc(100vh - 2rem);
+  margin: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  color: var(--dark-grey);
+  overflow: hidden;
+}
+
+.quick-view-dialog:modal {
+  overflow: hidden;
+}
+
+.quick-view-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.65);
+}
+
+.quick-view-dialog__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.quick-view-dialog__image {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  object-fit: contain;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.quick-view-dialog__details {
+  flex: 1;
+  min-width: 0;
+}
+
+.quick-view-dialog__brand {
+  font-family: var(--font-headline);
+  font-size: var(--small-font);
+  margin: 0;
+}
+
+.quick-view-dialog__name {
+  font-size: 1em;
+  margin: 0.25em 0 0.5em;
+}
+
+.quick-view-dialog__description {
+  font-size: var(--small-font);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.quick-view-dialog__description p {
+  padding: 0.25em 0;
+  margin: 0;
+}
+
+a.quick-view-dialog__link {
+  display: inline-block;
+  margin-top: 0.75em;
+  padding: 0.4em 1em;
+  background-color: var(--secondary-color);
+  color: white;
+  text-decoration: none;
+  font-size: var(--small-font);
+}
+
+.quick-view-dialog__link:hover {
+  background-color: var(--tertiary-color);
+}
+
+.quick-view-dialog__close {
+  width: 100%;
+  margin: 0;
+  border-radius: 0;
+  background-color: var(--tertiary-color);
+}
+
+.quick-view-dialog__close:hover {
+  background-color: var(--secondary-color);
+}
+
+@media screen and (min-width: 480px) {
+  .quick-view-dialog__content {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .quick-view-dialog__image {
+    align-self: flex-start;
+  }
+}
+
 /* End product list card */
 
 .product-detail {
