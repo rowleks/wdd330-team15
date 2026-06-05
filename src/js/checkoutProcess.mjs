@@ -123,7 +123,6 @@ export default class CheckoutProcess {
       shipping: this.shipping.toFixed(2),
       total: this.total.toFixed(2),
     }
-
     return await this.dataSource.processCheckout(enhancedData)
   }
 }
